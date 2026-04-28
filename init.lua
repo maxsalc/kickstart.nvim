@@ -258,6 +258,61 @@ require('lazy').setup({
   -- NOTE: Plugins can be added via a link or github org/name. To run setup automatically, use `opts = {}`
   { 'NMAC427/guess-indent.nvim', opts = {} },
 
+
+
+{
+  'goolord/alpha-nvim',
+  dependencies = {
+    'nvim-tree/nvim-web-devicons',
+  },
+  config = function()
+    local alpha = require 'alpha'
+    local dashboard = require 'alpha.themes.dashboard'
+
+    dashboard.section.header.val = {
+        [[   *        █████ █                                      .        +        ]],
+  [[      ██████  ██    ████ █                                 █       *      ]],
+  [[  +  ██   █  █ ██    ████                    ██           ███             ]],
+  [[    █    █  █  ██    █ █          .          ██            █          +   ]],
+  [[       . █  █    ██   █                ████    ██    ███                  ]],
+  [[    ██ ██    ██   █       ███     █ ███  █  ██    ███ ███    ███ ████ ████ ]],
+  [[ *  ██ ██     ██  █      █ ███   █   ████   ██     ███ ███    ███ ████ ███  █]],
+  [[    ██ ██     ██  █     █   ███ ██    ██    ██      ██  ██     ██  ████ ████ ]],
+  [[ +  ██ ██      ██ █    ██    █████    ██    ██      ██  ██     ██   ██   ██  ]],
+  [[    ██ ██      ██ █    ████████ ██    ██    ██      ██  ██     ██   ██   ██  ]],
+  [[    █  ██       ███    ███████  ██    ██    ██      ██  ██     ██   ██   ██  ]],
+  [[ .     █        ███    ██       ██    ██    ██      █   ██     ██   ██   ██  ]],
+  [[   ████          ██    ████    █ ██████      ███████    ██     ██   ██   ██  ]],
+  [[  █  █████              ███████   ████        █████     ███ █  ███  ███  ███ ]],
+  [[ █     ██                █████                           ███    ███  ███  ███]],
+  [[ █                                      +                                     ]],
+  [[  █          .                                      *                         ]],
+  [[   ██                       +                                  .              ]],
+    }
+
+    dashboard.section.buttons.val = {
+      dashboard.button('f', '󰈞  Find file', ':Telescope find_files<CR>'),
+      dashboard.button('r', '󰋚  Recent files', ':Telescope oldfiles<CR>'),
+      dashboard.button('n', '󰎔  New file', ':enew<CR>:lua open_ide_layout()<CR>'),
+      dashboard.button('c', '  Config', ':edit ~/.config/nvim/init.lua<CR>'),
+      dashboard.button('l', '󰒲  Lazy', ':Lazy<CR>'),
+      dashboard.button('q', '󰅚  Quit', ':qa<CR>'),
+    }
+
+    alpha.setup(dashboard.opts)
+  end,
+},
+
+
+
+
+
+
+
+
+
+
+
   {
   'akinsho/toggleterm.nvim',
   version = '*',
@@ -268,6 +323,55 @@ require('lazy').setup({
     shade_terminals = true,
   },
 },
+
+    {
+    'lervag/vimtex',
+    lazy = false,
+    init = function()
+      vim.g.vimtex_view_method = 'zathura'
+      vim.g.vimtex_compiler_method = 'latexmk'
+    end,
+  },
+
+    {
+  'navarasu/onedark.nvim',
+  priority = 1000,
+  config = function()
+    require('onedark').setup {
+      style = 'darker',
+    }
+  end,
+},
+
+{
+  'catppuccin/nvim',
+  name = 'catppuccin',
+  priority = 1000,
+},
+
+{
+  'rebelot/kanagawa.nvim',
+  priority = 1000,
+},
+
+{
+  'ellisonleao/gruvbox.nvim',
+  priority = 1000,
+},
+
+{
+  'rose-pine/neovim',
+  name = 'rose-pine',
+  priority = 1000,
+},
+
+{
+  'EdenEast/nightfox.nvim',
+  priority = 1000,
+}, 
+
+  
+
 
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:
@@ -614,6 +718,7 @@ require('lazy').setup({
          clangd = {},
          gopls = {},
          pyright = {},
+        texlab = {},
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -834,7 +939,22 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'carbonfox'
+       local bg = '#121314'
+
+    vim.api.nvim_set_hl(0, 'Normal', { bg = bg })
+    vim.api.nvim_set_hl(0, 'NormalNC', { bg = bg })
+    vim.api.nvim_set_hl(0, 'SignColumn', { bg = bg })
+    vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = bg })
+
+    vim.api.nvim_set_hl(0, 'NeoTreeNormal', { bg = bg })
+    vim.api.nvim_set_hl(0, 'NeoTreeNormalNC', { bg = bg })
+
+    vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = bg })
+    vim.api.nvim_set_hl(0, 'TelescopeBorder', { bg = bg })
+
+    vim.api.nvim_set_hl(0, 'NormalFloat', { bg = bg })
+    vim.api.nvim_set_hl(0, 'FloatBorder', { bg = bg })
     end,
   },
 
@@ -997,18 +1117,80 @@ require('lazy').setup({
   },
 })
 
+--vim.api.nvim_create_autocmd('VimEnter', {
+  --callback = function()
+    --vim.cmd 'Neotree show left'
+--
+    --vim.defer_fn(function()
+      ---- Move focus to the editor/right window first
+      --vim.cmd 'wincmd l'
+--
+      ---- Open terminal only under the editor side
+      --vim.cmd 'belowright 12split | terminal'
+--
+      ---- Move focus back up to editor
+      --vim.cmd 'wincmd k'
+    --end, 200)
+  --end,
+--})
+
+local ide_layout_opened = false
+local ide_terminal_buf = nil
+local ide_terminal_win = nil
+
+local function open_ide_layout()
+  if ide_layout_opened then
+    return
+  end
+
+  ide_layout_opened = true
+
+  -- Open file tree on the left
+  vim.cmd 'Neotree show left'
+
+  vim.defer_fn(function()
+    -- Move focus to the editor side, not Neo-tree
+    vim.cmd 'wincmd l'
+
+    -- Open terminal only under the editor side
+    vim.cmd 'belowright 12split'
+
+    ide_terminal_win = vim.api.nvim_get_current_win()
+
+    if ide_terminal_buf and vim.api.nvim_buf_is_valid(ide_terminal_buf) then
+      vim.api.nvim_win_set_buf(ide_terminal_win, ide_terminal_buf)
+    else
+      vim.cmd 'terminal'
+      ide_terminal_buf = vim.api.nvim_get_current_buf()
+    end
+
+    -- Return focus to editor above terminal
+    vim.cmd 'wincmd k'
+  end, 200)
+end
+
+_G.open_ide_layout = open_ide_layout
+
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
-    vim.cmd 'Neotree show left'
-    vim.cmd 'ToggleTerm direction=horizontal'
+    if vim.fn.argc() == 0 then
+      return
+    end
+
+    open_ide_layout()
   end,
 })
 
+vim.api.nvim_create_autocmd('BufReadPost', {
+  callback = function()
+    if vim.fn.argc() == 0 then
+      open_ide_layout()
+    end
+  end,
+})
 
 vim.keymap.set('t', '<Esc><Esc>', [[<C-\><C-n>]], { desc = 'Exit terminal mode' })
 
-
-vim.keymap.set('t', '<Esc><Esc>', [[<C-\><C-n>]], { desc = 'Exit terminal mode' })
 
 
 -- The line beneath this is called `modeline`. See `:help modeline`

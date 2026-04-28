@@ -18,12 +18,26 @@ return {
   ---@module 'neo-tree'
   ---@type neotree.Config
   opts = {
-    filesystem = {
-      window = {
-        mappings = {
-          ['\\'] = 'close_window',
-        },
+  filesystem = {
+    filtered_items = {
+      visible = false,
+      hide_dotfiles = true,
+      hide_gitignored = false,
+      hide_by_name = {
+        'go',
+        'libcs50',
+        'ti',
+        'workspace_ccstheia',
+      },
+    },
+
+    window = {
+      mappings = {
+        ['\\'] = 'close_window',
       },
     },
   },
+  },
 }
+
+
