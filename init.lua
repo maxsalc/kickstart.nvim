@@ -288,12 +288,16 @@ require('lazy').setup({
   [[ █                                      +                                     ]],
   [[  █          .                                      *                         ]],
   [[   ██                       +                                  .              ]],
-    }
+      }
+
+      vim.api.nvim_set_hl(0, 'AlphaHeader', { link = '@variable.member.lua' })
+dashboard.section.header.opts.hl = 'AlphaHeader'
+
 
     dashboard.section.buttons.val = {
       dashboard.button('f', '󰈞  Find file', ':Telescope find_files<CR>'),
       dashboard.button('r', '󰋚  Recent files', ':Telescope oldfiles<CR>'),
-      dashboard.button('n', '󰎔  New file', ':enew<CR>:lua open_ide_layout()<CR>'),
+      dashboard.button('n', '󰎔  New session', ':enew<CR>:lua open_ide_layout()<CR>'),
       dashboard.button('c', '  Config', ':edit ~/.config/nvim/init.lua<CR>'),
       dashboard.button('l', '󰒲  Lazy', ':Lazy<CR>'),
       dashboard.button('q', '󰅚  Quit', ':qa<CR>'),
@@ -715,7 +719,18 @@ require('lazy').setup({
       --  See `:help lsp-config` for information about keys and how to configure
       ---@type table<string, vim.lsp.Config>
       local servers = {
-         clangd = {},
+        ----i did stuff with clangd here to make errors go away when doing platformio projects
+         clangd = {
+          cmd = {
+            'clangd',
+             '--query-driver='
+      ..       vim.fn.expand '~/.platformio/packages/**/bin/*-gcc,'
+      ..        vim.fn.expand '~/.platformio/packages/**/bin/*-g++,'
+      ..        vim.fn.expand '~/.platformio/packages/**/bin/*-cc,'
+      ..        vim.fn.expand '~/.platformio/packages/**/bin/*-c++',
+            },
+                },
+        ---------------------------------------------
          gopls = {},
          pyright = {},
         texlab = {},
@@ -1153,7 +1168,7 @@ local function open_ide_layout()
     vim.cmd 'wincmd l'
 
     -- Open terminal only under the editor side
-    vim.cmd 'belowright 12split'
+    vim.cmd 'belowright 8split'
 
     ide_terminal_win = vim.api.nvim_get_current_win()
 
