@@ -984,6 +984,21 @@ dashboard.section.header.opts.hl = 'AlphaHeader'
     opts = { signs = false },
   },
 
+{
+  'MeanderingProgrammer/render-markdown.nvim', -- plugin for rendering markdown files
+  ft = { 'markdown' },
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter',
+    'nvim-tree/nvim-web-devicons',
+  },
+  opts = {},
+},
+
+
+
+
+
+
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
     config = function()
